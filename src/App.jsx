@@ -65,7 +65,7 @@ const App = () => {
             ) : (
               <div
                 className="result"
-                style={{ fontSize: exchangeRate.length > 5 ? "2rem" : "4rem" }}
+                style={{ fontSize: exchangeRate.length > 6 ? "2rem" : "4rem" }}
               >
                 {exchangeRate}
               </div>
