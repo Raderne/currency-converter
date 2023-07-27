@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Country_List } from "./countries";
 import { useGlobalContext } from "./context";
 
 const countriesCurCodes = Object.keys(Country_List);
 
 const SelectBox = ({ direction }) => {
-  const { setCurCode, setExchangeCode } = useGlobalContext();
+  const { curCode, exchangeCode, setCurCode, setExchangeCode } =
+    useGlobalContext();
   const imgTag = useRef();
+  const selectRef = useRef();
 
   const changeFlag = (value) => {
     if (direction === "from") {
@@ -20,6 +22,12 @@ const SelectBox = ({ direction }) => {
     ].toLowerCase()}.png`;
   };
 
+  useEffect(() => {
+    imgTag.current.src = `https://flagcdn.com/48x36/${Country_List[
+      selectRef.current.value
+    ].toLowerCase()}.png`;
+  }, [curCode, exchangeCode]);
+
   return (
     <div className="select-input">
       <img
@@ -28,17 +36,17 @@ const SelectBox = ({ direction }) => {
           direction === "from" ? "ma" : "tr"
         }.png`}
       />
-      <select onChange={(e) => changeFlag(e.target.value)}>
-        {countriesCurCodes.map((curCode, i) => {
+      <select onChange={(e) => changeFlag(e.target.value)} ref={selectRef}>
+        {countriesCurCodes.map((countryCode, i) => {
           const selected =
-            (direction === "from" && curCode === "MAD") ||
-            (direction === "to" && curCode === "TRY")
+            (direction === "from" && countryCode === curCode) ||
+            (direction === "to" && countryCode === exchangeCode)
               ? "selected"
               : "";
 
           return (
-            <option key={i} value={curCode} selected={selected}>
-              {curCode}
+            <option key={i} value={countryCode} selected={selected}>
+              {countryCode}
             </option>
           );
         })}

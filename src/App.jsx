@@ -15,6 +15,7 @@ const App = () => {
     curCode,
     setAmount,
     fetchExchangeRate,
+    reverseCurCode,
   } = useGlobalContext();
 
   const inputRef = useRef();
@@ -49,7 +50,7 @@ const App = () => {
             />
           </div>
 
-          <div className="reverse">
+          <div className="reverse" onClick={reverseCurCode}>
             <FaExchangeAlt />
           </div>
 

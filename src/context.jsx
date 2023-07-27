@@ -8,11 +8,16 @@ const API_ENDPOINT = `https://v6.exchangerate-api.com/v6/${
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState("1");
   const [exchangeRate, setExchangeRate] = useState(0);
   const [curCode, setCurCode] = useState("MAD");
   const [exchangeCode, setExchangeCode] = useState("TRY");
   const [loading, setLoading] = useState(true);
+
+  const reverseCurCode = () => {
+    setExchangeCode(curCode);
+    setCurCode(exchangeCode);
+  };
 
   const fetchExchangeRate = async (url) => {
     setLoading(true);
@@ -21,12 +26,14 @@ const AppProvider = ({ children }) => {
       const response = await fetch(url);
       const data = await response.json();
 
-      const exchangeRate = data.conversion_rates[exchangeCode];
+      const exchangeRateData = data.conversion_rates[exchangeCode];
       const totalExchange = (
-        parseFloat(amount) * parseFloat(exchangeRate)
+        parseFloat(amount) * parseFloat(exchangeRateData)
       ).toFixed(2);
       setExchangeRate(totalExchange);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     } catch (error) {
       console.log(error);
     }
@@ -43,10 +50,12 @@ const AppProvider = ({ children }) => {
         loading,
         exchangeRate,
         curCode,
+        exchangeCode,
         setAmount,
         setCurCode,
         setExchangeCode,
         fetchExchangeRate,
+        reverseCurCode,
       }}
     >
       {children}
