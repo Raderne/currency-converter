@@ -16,4 +16,3 @@ this is an app to convert currencies using [exchangerate-api.com] API, Design in
 - REACT + vite
 - Semantic HTML5 markup
 - CSS custom properties
-- Flexbox
