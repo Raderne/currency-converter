@@ -30,6 +30,7 @@ const App = () => {
   };
 
   const getExchangeRate = () => {
+    if (amount === "") return;
     fetchExchangeRate(`${API_ENDPOINT}${curCode}`);
   };
 
